@@ -65,3 +65,27 @@ env.process(generador_procesos(env, sistema_operativo))
 env.run(until=TIEMPO_SIMULACION)
 
 uso_ram = []  
+
+class Proceso:
+    ...
+
+class SistemaOperativo:
+    def __init__(self, env):
+        self.env = env
+        self.RAM = simpy.Container(env, init=CAPACIDAD_RAM, capacity=CAPACIDAD_RAM)
+        self.CPU = simpy.Resource(env, capacity=1)
+        self.env.process(self.monitor_ram())  #Iniciar
+
+    def monitor_ram(self):
+        while True:
+            uso_ram.append((self.env.now, self.RAM.level))
+            yield self.env.timeout(1)  # Actualiza cada unidad de tiempo
+
+
+# Estadísticas
+if tiempos:
+    print(f'Tiempo promedio: {statistics.mean(tiempos)}')
+    if len(tiempos) > 1:
+        print(f'Desviación estándar: {statistics.stdev(tiempos)}')
+else:
+    print("No se completaron procesos para calcular estadísticas.")
