@@ -89,3 +89,22 @@ if tiempos:
         print(f'Desviación estándar: {statistics.stdev(tiempos)}')
 else:
     print("No se completaron procesos para calcular estadísticas.")
+
+# Histograma de tiempos
+plt.figure(figsize=(10, 6))
+plt.hist(tiempos, bins=20, alpha=0.7, color='blue', edgecolor='black')
+plt.title('Histograma de Tiempos en el Sistema')
+plt.xlabel('Tiempo')
+plt.ylabel('Número de Procesos')
+plt.grid(True)
+plt.show()
+
+# Gráfico de línea del uso de RAM
+tiempos_ram, niveles_ram = zip(*uso_ram)  # Desempaqueta la lista de pares
+plt.figure(figsize=(10, 6))
+plt.plot(tiempos_ram, niveles_ram, color='red')
+plt.title('Uso de RAM a lo largo del tiempo')
+plt.xlabel('Tiempo')
+plt.ylabel('RAM Usada')
+plt.grid(True)
+plt.show()
